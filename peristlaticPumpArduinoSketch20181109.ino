@@ -40,64 +40,32 @@ void loop()
   pinMode(7,INPUT_PULLUP);
   int switchVal = digitalRead(7);
   int pumpRun = 0;
-  
+ 
+ // upon initialisation and while pumprun is inactive 
  while (pumpRun == 0 && digitalRead(7)== HIGH){
   delay(250);
   lcd.setCursor(0,0); 
   lcd.printstr("FLOW = ");
   lcd.setCursor(6,0);
   lcd.printstr(" 0.5 ml/m");
-  
-  if (digitalRead(7) == LOW){
-    pumpRun = !pumpRun;
-    delay(250);
-    break;
-  }
+   
+   
+    //toggle pumpRun state when button is depressed
+    if (digitalRead(7) == LOW){
+      pumpRun = !pumpRun;
+      delay(250);
+      break;
+    }
   
   lcd.setCursor(0,1); 
   lcd.printstr("PUMP PAUSED ");
   myMotor->release();
-  }
+}
 
-   while (pumpRun == 1 && digitalRead(7)== HIGH){
-  lcd.setCursor(0,1);
-  lcd.printstr("PUMP ENGAGED");
-  
-  myMotor->step(1, FORWARD, MICROSTEP); 
-
-  /*
-  if (digitalRead(12) == LOW){
-  pumpRun = !pumpRun;
-  lcd.clear();
-  delay(250);
-  break;
-  }
-  */
-  }
-  
-
-
-  
-
-
-  
-  
-  /*for (int positionCounter1 = 0; positionCounter1 < 26; positionCounter1++)
-  {
-    lcd.scrollDisplayLeft(); //Scrolls the contents of the display one space to the left.
-    lcd.print(array1[positionCounter1]); // Print a message to the LCD.
-    delay(tim); //wait for 250 microseconds
-  }
-  lcd.clear(); //Clears the LCD screen and positions the cursor in the upper-left  corner.
-  lcd.setCursor(15,1); // set the cursor to column 15, line 1
-  for (int positionCounter = 0; positionCounter < 26; positionCounter++)
-  {
-    lcd.scrollDisplayLeft(); //Scrolls the contents of the display one space to the left.
-    lcd.print(array2[positionCounter]); // Print a message to the LCD.
-    delay(tim); //wait for 250 microseconds
-  }
-  */
- // lcd.clear(); //Clears the LCD screen and positions the cursor in the upper-left corner.
+  //While pumprun is active
+  while (pumpRun == 1 && digitalRead(7)== HIGH)\{
+    lcd.setCursor(0,1);
+    lcd.printstr("PUMP ENGAGED");
+    myMotor->step(1, FORWARD, MICROSTEP); 
 
 }
-/************************************************************/
